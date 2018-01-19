@@ -7,9 +7,11 @@ const bodyParser = require('body-parser');
 const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require('connect-mongo')(session);
+const passport = require('passport');
 
 require('./configs/db.config');
+require('./configs/passport.config').setup(passport);
 
 const auth = require('./routes/auth.routes');
 const user = require('./routes/user.routes');
@@ -42,6 +44,8 @@ app.use(session({
     ttl: 24 * 60 * 60
   })
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', auth);

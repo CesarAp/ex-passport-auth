@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('../models/user.model');
+const passport = require('passport');
 
 module.exports.signup = (req, res, next) => {
     res.render('auth/signup');
@@ -49,29 +50,22 @@ module.exports.doLogin = (req, res, next) => {
             }
         });
     } else {
-        User.findOne({ username: username})
-            .then(user => {
-                errorData = {
-                    user: { username: username },
-                    error: { password: 'Invalid username or password' }
-                }
-                if (user) {
-                    user.checkPassword(password)
-                        .then(match => {
-                            if (!match) {
-                                res.render('auth/login', errorData);
-                            } else {
-                                req.session.currentUser = user;
-                                res.redirect('/profile');
-                            }
-                        })
-                        .catch(error => next(error));
-                } else {
-                    res.render('auth/login', errorData);
-                }
-            }).catch(error => next(error));
+        passport.authenticate('local-auth', (error, user, validation) => {
+            if (error) {
+                next(error);
+            } else if (!user) {
+                res.render('auth/login', { error: validation });
+            } else {
+                req.login(user, (error) => {
+                    if (error) {
+                        next(error);
+                    } else {
+                        res.redirect('/profile');
+                    }
+                });
+            }
+        })(req, res, next);
     }
-
 }
 
 module.exports.logout = (req, res, next) => {
@@ -79,6 +73,7 @@ module.exports.logout = (req, res, next) => {
         if (error) {
             next(error);
         } else {
+            req.logout();
             res.redirect("/login");
         }
     });
