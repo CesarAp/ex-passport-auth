@@ -50,6 +50,12 @@ app.use(passport.session());
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// view helpers
+app.use((req, res, next) => {
+  res.locals.session = req.user;
+  next();
+})
+
 app.use('/', auth);
 app.use('/', user);
 
