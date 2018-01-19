@@ -9,8 +9,9 @@ router.post('/signup', authController.doSignup);
 router.get('/login', authController.login);
 router.post('/login', authController.doLogin);
 
-router.post('/auth/fb', passport.authenticate('fb-auth'));
-router.get('/auth/fb/cb', authController.loginWithFacebookCallback)
+router.post('/auth/fb', passport.authenticate('fb-auth', { scope: ['email'] }));
+router.post('/auth/google', passport.authenticate('google-auth', { scope: ['openid', 'profile', 'email']}));
+router.get('/auth/:provider/cb', authController.loginWithProviderCallback)
 
 router.get('/logout', authController.logout);
 

@@ -36,10 +36,17 @@
     </form>
 
     <hr>
-    <form action="/auth/fb" method="POST">
+    <form action="/auth/fb" method="POST" class="oauth-login">
       <div class="form-actions">
         <button type="submit" class="btn btn-block btn-primary">
           <i class="fa fa-facebook"></i> Login with Facebook</button>
+      </div>
+    </form>
+
+    <form action="/auth/google" method="POST" class="oauth-login">
+      <div class="form-actions">
+        <button type="submit" class="btn btn-block btn-danger">
+          <i class="fa fa-google"></i> Login with Google</button>
       </div>
     </form>
 

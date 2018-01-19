@@ -70,8 +70,8 @@ module.exports.doLogin = (req, res, next) => {
     }
 }
 
-module.exports.loginWithFacebookCallback = (req, res, next) => {
-    passport.authenticate('fb-auth', (error, user) => {
+module.exports.loginWithProviderCallback = (req, res, next) => {
+    passport.authenticate(`${req.params.provider}-auth`, (error, user) => {
         if(error) {
             next(error);
         } else {
@@ -84,22 +84,6 @@ module.exports.loginWithFacebookCallback = (req, res, next) => {
             });
         }
     })(req, res, next);
-}
-
-const authenticateUserCallback = (error, user, validation) => {
-    if (error) {
-        next(error);
-    } else if (!user) {
-        res.render('auth/login', { error: validation });
-    } else {
-        req.login(user, (error) => {
-            if (error) {
-                next(error);
-            } else {
-                res.redirect('/profile');
-            }
-        });
-    }
 }
 
 module.exports.logout = (req, res, next) => {

@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
         required: [true, 'User needs a password']
     },
     social: {
-        facebookId: String
+        facebookId: String,
+        googleId: String
     }
 }, { timestamps: true });
 
