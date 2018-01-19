@@ -18,6 +18,7 @@ module.exports.doSignup = (req, res, next) => {
                 user = new User(req.body);
                 user.save()
                     .then(() => {
+                        req.flash('info', 'Successfully sign up, now you can login!');
                         res.redirect('/login');
                     }).catch(error => {
                         if (error instanceof mongoose.Error.ValidationError) {
@@ -34,8 +35,9 @@ module.exports.doSignup = (req, res, next) => {
 }
 
 module.exports.login = (req, res, next) => {
-    console.log(req.session.currentUser);
-    res.render('auth/login');
+    res.render('auth/login',{
+        flash: req.flash()
+    });
 }
 
 module.exports.doLogin = (req, res, next) => {

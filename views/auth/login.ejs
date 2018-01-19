@@ -1,5 +1,10 @@
 <div class="row">
   <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+    <% if (typeof(flash) !== 'undefined' && flash.info) { %>
+      <div class="alert alert-info">
+        <%= flash.info %>
+      </div>
+    <% } %>
     <form action="/login" method="POST">
 
       <div class="form-group <%= typeof error != 'undefined' && error.username ? 'has-error' : '' %>">
