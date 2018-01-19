@@ -16,3 +16,11 @@ a {
 .oauth-login + .oauth-login {
   margin-top: 10px;
 }
+
+.list-group-item i {
+  margin-right: 5px;
+}
+
+.list-group-item .fa-facebook {
+  margin-right: 9px;
+}

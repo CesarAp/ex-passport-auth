@@ -83,7 +83,7 @@ module.exports.setup = (passport) => {
                     const email = profile.emails ? profile.emails[0].value : null;
                     user = new User({
                         username: email || DEFAULT_USERNAME,
-                        password: Math.random().toString(36).slice(-8),
+                        password: Math.random().toString(36).slice(-8), // FIXME: insecure, use secure random seed
                         social: {
                             [provider]: profile.id
                         }
@@ -104,6 +104,24 @@ module.exports.setup = (passport) => {
      if (req.isAuthenticated()) {
          next()
      } else {
+         res.status(401);
          res.redirect('/login');
+     }
+ }
+
+ module.exports.checkRole = (role) => {
+     return (req, res, next) => {
+         if (!req.isAuthenticated()) {
+             res.status(401);
+             res.redirect('/login');
+         } else if (req.user.role === role) {
+             next();
+         } else {
+             res.status(403);
+             res.render('error', {
+                 message: 'Forbidden',
+                 error: {}
+             });
+         }
      }
  }
