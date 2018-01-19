@@ -6,7 +6,6 @@
       </div>
     <% } %>
     <form action="/login" method="POST">
-
       <div class="form-group <%= typeof error != 'undefined' && error.username ? 'has-error' : '' %>">
         <div class="input-group">
           <span class="input-group-addon">
@@ -35,6 +34,15 @@
         <button type="submit" class="btn btn-block btn-primary">Login</button>
       </div>
     </form>
+
+    <hr>
+    <form action="/auth/fb" method="POST">
+      <div class="form-actions">
+        <button type="submit" class="btn btn-block btn-primary">
+          <i class="fa fa-facebook"></i> Login with Facebook</button>
+      </div>
+    </form>
+
   </div>
   <div class="col-xs-12 col-sm-4 col-sm-offset-4">
     <hr>
